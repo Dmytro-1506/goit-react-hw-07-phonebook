@@ -21,10 +21,7 @@ export const phonebookSlice = createSlice({
         },
         filterContacts(state, action) {
             state.filter = action.payload.trim()
-        }
-    },
-
-    extraReducers: {
+        },
         [fetchContacts.pending](state) {
             state.isLoading = true;
         },
@@ -40,6 +37,23 @@ export const phonebookSlice = createSlice({
             state.error = action.payload;
         },
     },
+
+    // extraReducers: {
+        // [fetchContacts.pending](state) {
+        //     state.isLoading = true;
+        // },
+        // [fetchContacts.fulfilled](state, action) {
+        //     state.isLoading = false;
+        //     state.error = null;
+        //     state.items = action.payload;
+        //     console.log(action.payload);
+        //     console.log('bye-bye');
+        // },
+        // [fetchContacts.rejected](state, action) {
+        //     state.isLoading = false;
+        //     state.error = action.payload;
+        // },
+    // },
 });
 
 export const { addContact, removeContact, filterContacts } = phonebookSlice.actions;

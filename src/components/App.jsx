@@ -2,16 +2,17 @@ import { ContactList } from './ContactList/ContactList';
 import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { useDispatch } from 'react-redux';
-import { fetchContacts } from 'store/contacts/api';
 import { useEffect } from 'react';
+import { fetchContacts } from 'store/contacts/api';
 
 export function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log('hello');
-		dispatch(fetchContacts());
-	}, [dispatch]);
+    console.log(fetchContacts());
+    console.log(dispatch(fetchContacts()));
+    dispatch(fetchContacts());
+	}, []);
 
   return (
     <div
