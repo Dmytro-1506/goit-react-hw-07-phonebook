@@ -20,10 +20,13 @@ export const phonebookSlice = createSlice({
         filter: '',
     },
 
-    extraReducers: {
+    reducers: {
         filterContacts(state, action) {
             state.filter = action.payload.trim()
         },
+    },
+
+    extraReducers: {
         [fetchContacts.pending]: handlePending,
         [fetchContacts.rejected]: handleRejected,
         [addContact.pending]: handlePending,
