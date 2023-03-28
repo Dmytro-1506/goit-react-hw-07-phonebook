@@ -6,8 +6,8 @@ import { useEffect } from 'react';
 import { fetchContacts } from 'store/contacts/api';
 
 export function App() {
-  const dispatch = useDispatch(); 
-
+  const dispatch = useDispatch();
+  
   useEffect(() => {
     dispatch(fetchContacts());
 	}, [dispatch]);

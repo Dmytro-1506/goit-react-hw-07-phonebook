@@ -11,9 +11,10 @@ export const ContactList = () => {
     
     useEffect(() => {
         setFindedContacts(() => {
-            console.log(phonebook);
             return phonebook.filter((element) => {
-                return element.name.toLowerCase().includes(filter.toLowerCase())
+                if (element) {
+                    return element.name.toLowerCase().includes(filter.toLowerCase())
+                }
             })
         })
     }, [phonebook, filter]);
