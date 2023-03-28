@@ -1,11 +1,11 @@
 import './ContactForm.css'
 import { nanoid } from 'nanoid';
-import { addContact } from 'store/phonebookSlice';
 import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'store/contacts/api';
 
 export const ContactForm = () => {
   const dispatch = useDispatch();
-  const contacts = useSelector(state => state.contacts)
+  const contacts = useSelector(state => state.contacts.items)
   const onSubmit = (event) => {
     event.preventDefault();
     const newContact = {
@@ -14,13 +14,16 @@ export const ContactForm = () => {
       number: event.target.number.value
     }
     const isExist = () => {
+      console.log(contacts);
       return contacts.find(contact => contact.name === newContact.name)
     }
     if (isExist()) {
+      console.log('exist');
       return alert(`${newContact.name} is already in contacts`)
     }
-    dispatch(addContact({ newContact }))
-      ;
+    console.log('after isExist');
+    console.log(newContact);
+    dispatch(addContact(newContact));
     event.target.reset()
   };
 

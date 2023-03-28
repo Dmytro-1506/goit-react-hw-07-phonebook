@@ -1,5 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchContacts } from "./contacts/api";
+import { fetchContacts, addContact, deleteContact } from "./contacts/api";
+
+const handlePending = state => {
+    state.isLoading = true;
+};
+const handleRejected = (state, action) => {
+    state.isLoading = false;
+    state.error = action.payload;
+};
 
 export const phonebookSlice = createSlice({
     name: 'phonebook',
@@ -12,50 +20,37 @@ export const phonebookSlice = createSlice({
         filter: '',
     },
 
-    reducers: {
-        addContact(state, action) {
-            state.contacts.push(action.payload.newContact)
-        },
-        removeContact(state, action) {
-            state.contacts = state.contacts.filter(contact => contact.id !== action.payload)
-        },
+    extraReducers: {
         filterContacts(state, action) {
             state.filter = action.payload.trim()
         },
-        [fetchContacts.pending](state) {
-            state.isLoading = true;
-        },
+        [fetchContacts.pending]: handlePending,
+        [fetchContacts.rejected]: handleRejected,
+        [addContact.pending]: handlePending,
+        [addContact.rejected]: handleRejected,
+        [deleteContact.pending]: handlePending,
+        [deleteContact.rejected]: handleRejected,
         [fetchContacts.fulfilled](state, action) {
             state.isLoading = false;
             state.error = null;
-            state.items = action.payload;
-            console.log(action.payload);
-            console.log('bye-bye');
+            state.contacts.items = action.payload;
         },
-        [fetchContacts.rejected](state, action) {
+        [addContact.fulfilled](state, action) {
             state.isLoading = false;
-            state.error = action.payload;
+            state.error = null;
+            state.contacts.items.push(action.payload);
+        },
+        [deleteContact.fulfilled](state, action) {
+            state.isLoading = false;
+            state.error = null;
+            const index = state.contacts.items.findIndex(
+                contact => contact.id === action.payload.id
+            );
+            state.contacts.items.splice(index, 1);
         },
     },
-
-    // extraReducers: {
-        // [fetchContacts.pending](state) {
-        //     state.isLoading = true;
-        // },
-        // [fetchContacts.fulfilled](state, action) {
-        //     state.isLoading = false;
-        //     state.error = null;
-        //     state.items = action.payload;
-        //     console.log(action.payload);
-        //     console.log('bye-bye');
-        // },
-        // [fetchContacts.rejected](state, action) {
-        //     state.isLoading = false;
-        //     state.error = action.payload;
-        // },
-    // },
 });
 
-export const { addContact, removeContact, filterContacts } = phonebookSlice.actions;
+export const { filterContacts } = phonebookSlice.actions;
 
 export default phonebookSlice.reducer;
