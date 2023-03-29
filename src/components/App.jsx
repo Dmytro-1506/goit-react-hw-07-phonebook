@@ -3,7 +3,7 @@ import { ContactForm } from './ContactForm/ContactForm';
 import { Filter } from './Filter/Filter';
 import { useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { fetchContacts } from 'store/contacts/api';
+import { fetchContacts } from 'store/phonebookOperations';
 
 export function App() {
   const dispatch = useDispatch();
